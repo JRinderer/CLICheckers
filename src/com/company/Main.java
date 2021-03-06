@@ -31,7 +31,7 @@ public class Main {
         Scanner myScanner = new Scanner(System.in);
         Board myBoard = new Board();
         Game thisGame = new Game();
-        myBoard.removePieceOnSpace(0,1);
+        /*myBoard.removePieceOnSpace(0,1);
         myBoard.removePieceOnSpace(0,3);
         myBoard.removePieceOnSpace(0,5);
         myBoard.removePieceOnSpace(0,7);
@@ -43,7 +43,7 @@ public class Main {
         myBoard.removePieceOnSpace(2,4);
         myBoard.removePieceOnSpace(2,5);
         myBoard.removePieceOnSpace(2,7);
-        thisGame.setOver(true);
+        thisGame.setOver(true);*/
 
         String cont = "y";
         String pieceName;
@@ -67,7 +67,7 @@ public class Main {
         Player currentPlayerHolder = new Player();
         Player oppositePlayerHolder = new Player();
 
-        System.out.println("Would you like to surrender?");
+       /* System.out.println("Would you like to surrender?");
         cont = myScanner.nextLine();
 
         if (cont.equals("y")) {
@@ -77,14 +77,14 @@ public class Main {
         }else{
             thisGame.setOver(false);
         }
-
+*/
         while (!thisGame.isOver()) {//cont.equals("n") && (!Player.gameOver(players))) {
             //determine what players turn it is
             Player.gameOver(players);
 
             currentPlayerHolder = Player.whosTurn(players);
             oppositePlayerHolder = Player.whosTurnIsnt(players);
-
+            System.out.println("It is currently "+ currentPlayerHolder.getColor() + " players turn.");
             System.out.println("Type a piece name:");
             pieceName = myScanner.nextLine();
             piece = findPiece(pieceName, myBoard, currentPlayerHolder);
@@ -116,16 +116,14 @@ public class Main {
             }
 
             currentPieces = myBoard.showBoard();
-            System.out.println("Would you like to surrender?");
+            System.out.println("Would you the " + currentPlayerHolder.getColor() +  " like to surrender?");
             //myScanner.nextLine();
             cont = myScanner.nextLine();
 
             if (cont.equals("y")) {
                 thisGame.setOver(true);
-                System.out.println(currentPlayerHolder.getColor());
-                System.out.println(oppositePlayerHolder.getColor());
-                currentPlayerHolder.setWon(true);
-                oppositePlayerHolder.setWon(false);
+                currentPlayerHolder.setWon(false);
+                oppositePlayerHolder.setWon(true);
             }
 
             ArrayList<Piece> runningPieces = myBoard.getPieces();

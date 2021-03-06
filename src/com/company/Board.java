@@ -31,7 +31,6 @@ public class Board {
             switch (x) {
                 case 0:
                     setEvenCols(x, redPieces, "R",-1, -2);
-
                     break;
                 case 1:
                     setOddCols(x,redPieces,"R",-1, -2);
