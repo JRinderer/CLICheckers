@@ -1,0 +1,300 @@
+Checkers - CLI based Checkers Game.
+basic rules:
+    1. 2 players
+        a. Red
+        b. Black
+    2. Black player moves first
+    3. One board per game
+    4. 12 pieces for each player
+    5. Players place their pieces on the 12 dark squares in the first three rows closest to player.
+    6. Each of these rows should have a total of 4 pieces.
+    7. The back row (row closest to the player) is the KING ROW.
+    8. Pieces may only move 1 diagonal place forward towards their opponet.
+    9. Pieces must stay on the dark squares.
+    10. Capturing pieces is achieved by jumping over it.
+    11. The space on the other side of the piece you intend to capture must be empty.
+    12. You can chain together jumps as long as the above criteria is met.
+    13. If your piece makes it to the very back row you make re-take one capture piece and crown the piece you made it
+    to the other side of the board with. This is piece is no a King piece.
+    14. King pieces may still only move one space at a time during non-capturing moves. However, when capturing pieces
+    the king can move diagonally forward or backwards.
+    15. There is no limit to the amount of king pieces a player may have.
+=======================================================================================================================
+Summary: In order to play checkers we need at a minimum 4 physical things:
+    1. A red player.
+    2. A black player
+    3. Game pieces.
+    4. A game board.
+
+We would at least need the following classes to accomplish this.
+    1. Player
+    2. GamePieces
+    3. GameBoard.
+
+If we think about this more deeply, we can actually seperate these out further. The goal should be to abstract as much
+as reasonably possible.
+
+We need to create at least the above so we can have a game of checkers.
+=======================================================================================================================
+Board:
+
+    What is a board? It's a square piece of material (cardboard, wood, metal, anything we can make a square from). The
+    board is a grid of 8 rows, and 8 columns. The intersection of a column and row create a "spot" or "square". White
+    or "light" square are not used. Dark squares can contain pieces.
+
+    Thinking like this we would have 2 classes related to the board.
+
+    A Board class, and a Square class. The board would use Squares to construct a game surface for us to plan on.
+
+    Our board needs the following basic features.
+
+        1. We need to be able to "create" a board. Even if it's empty.
+
+        2. We need to be able to set the board up to the default starting positon for all pieces.
+
+        3. At any time we need to be able to print the board out and display it's current state: where all the pieces are.
+
+    To accomplish this our Board class would rely on a Square class. This Square class would be used to build out our
+    rows and columns. It would also be used to display and "hold" pieces. At anytime I should be able to call something
+    like:
+        Square.getPiece();
+
+    This is an over simplificaiton, but it's the heart of what we need. That should return to us whether a regular
+    piece, king piece or no piece is on it. We should also be able to determine what "player" controls that piece (red
+    or black).
+
+====================Notes on board continued===========================================================================
+Board:
+
+What does my board need to provide? The board needs to be printed in some default state, say the initial setup of a
+checkers game. The board needs to be able to be printed in it's current state; where pieces are right now. The board
+should also provide a method to add a piece to the board somewhere, and remove the piece from the board. At a high level
+this is what our board class should provide.
+
+Diving a little deeper we need to consider the HOW of providing this to other developers. Let's discuss the details
+
+1. We need to be able to create a board from our class. This can be accomplished with a general constructor.
+2. We need to be able to print the board at any time for our user. Let's first print a blank board.
+
+So at a bare minimum I want to accomplish printing an empty board; even if it's literally just empty and all NULL.
+
+If I start thinking about that process something comes to mind, a board is made up of squares that intersect by row &
+column (x,y). I'll create a class called Square or position; something along those lines.
+
+This class would at a minimum have some coordinates, and a data type of a piece. We'll also need a method to set a piece
+on that square. So while overall we're broadly touching "the board" the board is itself made up of squares. So, with that
+in mind what I really want to do is create a board object, and then print out all the squares and whatever pieces might
+exist on them.
+
+Let's assume I'm just developing the board, not pieces. How can I go about doing this without a Piece class? Let's setup
+a generic Piece class that literally just contains a string, a name for the piece. We can even, at this point just print
+strings on the board. We can still get the same performance; though we'd need to come back to this and modify our methods
+later once we have our piece class.
+
+What should my board class have:
+
+Board:
+
+1. Data:
+    1a. Squares (we'll create several squares for our board)
+    2a. game pieces
+
+2. Methods:
+    2a. A general constructor
+    2b. A setBoard method to setup our board.
+    2c. A showBoard method to display the board.
+    2d. A setPiece to set a piece on a square
+    2e. A removePiece to remove a piece from the square.
+
+
+Generally speaking, this is how I'd think about the board. This may change as we dive in and I start to think about
+other aspects (pieces, moves, etc).
+
+At the end of the day, the board shouldn't care if the pieces move is valid (it'd be great if it did); it just needs to
+provide some method of adding a piece to our board.
+
+Square:
+
+1. Data:
+    1a. xCord
+    1b. yCord
+    1b. Piece
+
+2. Methods:
+    2a. setPiece
+    2b. setPiece
+    2c. A general constructor
+
+=======================================================================================================================
+Pieces
+
+What do we need to do with pieces? Pieces in Checkers fall into two categories; a regular checkers piece, and a king
+checkers piece. A regular checkers piece is capable of moving 1 row up, and one row right or left; effectively an angle.
+These pieces are also grouped into two colors, red and white (or any colors really).
+
+The square a piece is moving to must be free, meaning another piece cannot be in it's way. However, a piece may "jump"
+over another piece. If we have a setup (let X represent player 1, Y represent player 2, and 0 represents an empty space:
+
+0X0X0
+00Y00
+X0000
+
+The first X on line 138 represent a piece. We an "jump" the Y piece on line 139. It would end up looking like this once
+the jump is completed
+
+000X0
+00000
+X00X0
+
+The Y piece was taken, and the X move to the square behind and to the right of the Y piece.
+
+This should, in an ideal setup occur automatically with no interaction from the user. Meaning, if a use moves to a
+new square, and in the course of it's movement jumps an enemy piece, it should be handled automatically.
+
+Our Piece class should be responsible for creating our general game pieces, and providing a method to move pieces. We
+will also need to handle the logic of moving a piece; which should handle the logic (confirming if a move is valid).
+
+Let's discsuss the move some more and get an idea of what we need to do.
+
+The board will provide us a method to place a piece on a square, and remove a piece from a square. Our movement will use
+this method to move (without taking a piece) and move when we jump a piece.
+
+Move validation should first validate that the move of a piece is valid; meaning, that piece can legally move to the
+square being specified.
+
+The move validation will also need to be aware of the piece type. If it's a regular piece it's movement is limited 1
+row towards the enemoy, and 1 column left or right.
+
+If the piece is a KING type the movement changes every so slightly for normal movement. It can move forward and backward
+, it's jump is dramatically different. A regular piece can make double or triple jumps but only in a forward direction.
+
+The king, on the other hand, is capable of jumping forward, then backward. The move validation will need to account for
+this.
+
+If a piece jumps any enemy pieces during this movement the validation should check this as well. For any square that is
+"crossed" with an enemy piece on it, the movement should "kill" and remove those pieces.
+
+When it comes to moving a simple solution with ABS and subtracting X and Y can work. The problem is what happens if
+the player wants to jump a piece?
+
+The complexity comes in to play because we want to automatically handle when the user jumps a piece; simply when they
+select the position to move to.
+
+So how do we handle simple jumps?
+
+Option 1:
+    Explain that the user can "attack" a piece by moving to it's square. Then we can test if the piece after that one is
+    empty of has a piece on it.
+
+Option 2:
+    Let the user specify the coordinates to "jump" to, and check if a piece was jumped.
+
+Lets dive more into the details of the pieces.
+
+First, we need to have a class for our pieces; we can extend (or use an interface) to regular pieces and king pieces.
+
+We now have the ability to move pieces correctly, and jump pieces correctly.
+
+With this I now need to implement the king piece. I'm not sure the best way to do that. Possibly merely flipping a
+variable on RegularPieces.
+
+If we decide to take the class route, and create a new piece, we need to update that. What I mean is, when we create
+the king piece, the list of pieces in my Main method are outdated with regular pieces.
+
+I would need to, in my interface always get all the piece on my board. What might be better approach in my bord is to
+return a list of all the pieces on the board as I print the board out as well.
+
+What this does, is every time the interface team displays the board, they also get an updated list of pieces available
+as well.
+
+Another valid route to take is to "convert" that specific piece to a king piece by using a variable in my RegularPiece
+class as a sort of switch. When I reach row 0, I can simply flip that switch.
+
+Both of these are valid approaches that have different strengths and weaknesses. The first, we'd always be giving the
+interface developer a list of pieces on the board every time they show the board. Not necessairly bad, but possibly
+resource intensive.
+
+The other method is semi-messy because a King piece is really a new piece; in some games of checkers they simply flip
+the piece over and there's a crown. This indicates the piece is a king. In others, they stack two pieces together.
+
+Frankly, either is valid in my opinion for accomplishing what I want to do. I prefer the first method of passing the
+interface developer a list of all active pieces every time they show the board. It also lets me seperate out the king
+pieces from regular pieces. Something I want to do simply as an example.
+
+Pieces can move in the right direction, and can be converted to kings, which can then move in all directions. Jumps are
+also completed
+=======================================================================================================================
+Interface
+
+The interface needs to do a few things
+
+First: We need to provide a method for our end user (the game players) to be able to select a piece and move it. We've
+already handled valid movement and jumps in our pieces/moves code. So this is merely matter of selecting a piece to move.
+
+This means we need to get 2 things from the user:
+    1. What piece to select
+        1a. let the user type in the pieces name.
+            -Approimate match issues?
+            -Add a fully qualified name for our piece.
+        2a. present the user with all the pieces on the board
+            -User enters a numeric selection for that piece.
+            -That piece is the one we move.
+        3. One of these options will select a piece object.
+        4. We'd want to display the board to our users so they can see where the pieces are.
+
+    2. What coordinates to move to
+        2a. X coordinates
+        2b. Y coordinates.
+
+ With these two things we have completed the step of letting our users select pieces to move.
+
+ Second: We need to ensure that our players only can move on their turn.
+
+ Third: We need to ensure that our players can only move their pieces as well.
+
+ Based on this information we probably want to setup class called Player with some associated data and methods.
+
+ Player Class:
+
+    Data:
+        turn
+        color
+        won
+
+    The turn data will be boolean, color string (related to color we set in board) and whether or not that player has won
+
+    We'll defintely use the default getters/setters here, at least I think we will. What want also want to do is change
+    turns in player class, creating a method to basically "flip the bits". So true becomes false, and false becomes true.
+
+    We'll want to create a red player and white player, set the red players turn to true (since they go first), and the
+    white players turn to false. We'll also want to setup the approprieate color string.
+
+    We have two approaches we can take to handling turns. First, we can put more work in the interface side, we can check
+    if red.isTurn, or white.isTurn, and handle things in interface.
+
+    We'd create an empty Player that we can call something like activePlayer or tempPlayer. This will hold the player
+    that is currently active.
+
+    Our if tests would set our activePlayer to red or white based on which one is up for their turn.
+
+    Then we turn that player "off" when they take their turn.
+
+    Another approach is to create an ArrayList of players that we can add our red and white player too. Pass that list
+    to static methods in our Player class, and then flip the bits, and check whose turn it is.
+
+    Either approach is valid in this case.
+
+Basic error handling:
+
+    Beyond that we'll want to have some basic error handling. What happesn if the users move is invalid? We want to
+    inform them of that, and let them try again. So we don't want their turn to end.
+
+    What happens if the player selects and attempts to move the wrong piece? We'll obviously want to inform them of this
+    as well and let them attempt again.
+
+    We'll also want to make sure if they enter invalid data, like bad piece names, or invalid coordinates we handle that.
+    If we're expecting integers, we want to handle bad input without crashing.
+
+
+Game Over:
+    A game is over when all the pieces of 1 color are gone; or when a player surrenders.
