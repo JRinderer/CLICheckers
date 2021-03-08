@@ -37,6 +37,7 @@ public class Board {
                     break;
                 case 2:
                     setEvenCols(x,redPieces,"R",-1, -2);
+
                     break;
                 case 3: //empty rows
                     sentAllBlank(x);
@@ -62,7 +63,7 @@ public class Board {
         for(int y = 0;y<8;y++){
             if(y%2==0){
                 RegularPiece thisPiece = new RegularPiece(color,move,jump);
-                //insert your code here
+                setPieceOnSpace(thisPiece,row,y);
                 thisPiece.setName("__"+ color +  row + "-" + y + "_" );
                 thisPiece.setFullName(color + row + "-" + y);
                 thisPiece.setxCord(row);
@@ -71,7 +72,7 @@ public class Board {
             }
             else{
                 RegularPiece emptyPiece = new RegularPiece("",0,0);
-                //insert code to put pieces on a square
+                setPieceOnSpace(emptyPiece,row,y);
                 emptyPiece.setName("__" + row + "-" + y + "__");
                 emptyPiece.setFullName("empty");
             }
@@ -82,7 +83,7 @@ public class Board {
     public void sentAllBlank(int row){
         for (int y=0;y<8;y++){
             RegularPiece emptyPiece = new RegularPiece("",0,0);
-            //insert your code here
+            setPieceOnSpace(emptyPiece,row,y);
             emptyPiece.setName("__" + row + "-" + y + "__");
             emptyPiece.setFullName("empty");
         }
@@ -94,7 +95,7 @@ public class Board {
         for(int y = 0;y<8;y++){
             if(y%2!=0){
                 RegularPiece thisPiece = new RegularPiece(color,move, jump);
-                //insert your code here
+                setPieceOnSpace(thisPiece,row,y);
                 thisPiece.setName("__"+ color +  row + "-" + y + "_" );
                 thisPiece.setFullName(color + row + "-" + y);
                 thisPiece.setxCord(row);
@@ -103,7 +104,7 @@ public class Board {
             }
             else{
                 RegularPiece emptyPiece = new RegularPiece("",0,0);
-                //insert code to put pieces on a square
+                setPieceOnSpace(emptyPiece,row,y);
                 emptyPiece.setName("__" + row + "-" + y + "__");
                 emptyPiece.setFullName("empty");
             }
@@ -125,17 +126,15 @@ public class Board {
     }
     //
 
-    public void setPieceOnSpace() {
-        //insert your code here
-        /*modify this code to put a piece on a square
-        however you see fit to do this is fine. As
-        long as I can easily put a piece on this board
-        using this method and on a particulra square.*/
-        System.out.println("here's where your code goes");
+    public void setPieceOnSpace(Piece piece, int x, int y ) {
+        squares[x][y].setPiece(piece);
     }
 
-    public void removePieceOnSpace(){
-        //insert your code here
+    public void removePieceOnSpace(int x, int y){
+        RegularPiece emptyPiece = new RegularPiece("",0,0);
+        emptyPiece.setName("__"+x+"-"+y+"__");
+        emptyPiece.setFullName("empty");
+        squares[x][y].setPiece(emptyPiece);
     }
 
 
