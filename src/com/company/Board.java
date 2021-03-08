@@ -111,13 +111,15 @@ public class Board {
         }
     }
 
+    //whenever board is displayed it also returns
+    //an array list of all the pieces on the board
     public ArrayList<Piece> showBoard() {
         //print first row
         ArrayList<Piece> tempList = new ArrayList<>();
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                System.out.print(squares[x][y].getPieceName());
-                tempList.add(squares[x][y].getPiece());
+                //insert your code here PRINT PIECE NAME
+                //insert your code here to get a piece off a square
             }
             System.out.println();
         }
@@ -130,23 +132,12 @@ public class Board {
         /*modify this code to put a piece on a square
         however you see fit to do this is fine. As
         long as I can easily put a piece on this board
-        using this method and on a particulra square.*/
+        using this method and on a particular square.*/
         System.out.println("here's where your code goes");
     }
 
     public void removePieceOnSpace(){
         //insert your code here
-    }
-
-
-    public ArrayList<Piece> getPieces() {
-        ArrayList<Piece> tempList = new ArrayList<>();
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                tempList.add(squares[x][y].getPiece());
-            }
-        }
-        return tempList;
     }
 
 }
