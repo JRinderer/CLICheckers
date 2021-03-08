@@ -14,7 +14,18 @@ public class Main {
         Scanner myScanner = new Scanner(System.in);
         Board myBoard = new Board();
         ArrayList<Piece> pieces = new ArrayList<>();
-        pieces = myBoard.getPieces();
+        pieces = myBoard.showBoard();
+
+        //I am picking up piece R0-1 and moving it to square 3-1
+        myBoard.setPieceOnSpace(pieces.get(1),3,1);
+        System.out.println("=======================NEW BOARD=======================");
+        //I am removing piece R0-1 from it's original position at 0,1)
+        myBoard.removePieceOnSpace(0,1);
+        //The board will display R0-1 on it's new square
+        pieces = myBoard.showBoard();
+
+
+
 
     }
 }
