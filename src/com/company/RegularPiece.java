@@ -113,6 +113,15 @@ public class RegularPiece implements Piece {
 
     }
 
+    public boolean move(Piece piece, int x, int y){
+        /*
+        We don't need to concern ourselves with validating movement yet.
+        Right now I just want you to be able to take a piece, move it to
+        a new square as if this were a real game of checkers.
+         */
+        return true;
+    }
+
     public RegularPiece(){
         this.setId(counter);
         counter++;

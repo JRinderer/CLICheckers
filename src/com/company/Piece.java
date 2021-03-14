@@ -20,6 +20,7 @@ public interface Piece {
     public int getKingRow();
     public void setFullName(String fullName);
     public String getFullName();
+    public boolean move(Piece piece, int x, int y);
     //
 
 }
