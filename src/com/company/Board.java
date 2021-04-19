@@ -2,6 +2,8 @@ package com.company;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class Board {
     //Fixing git
@@ -31,7 +33,6 @@ public class Board {
             switch (x) {
                 case 0:
                     setEvenCols(x, redPieces, "R",-1, -2);
-
                     break;
                 case 1:
                     setOddCols(x,redPieces,"R",-1, -2);
@@ -111,6 +112,23 @@ public class Board {
             }
 
         }
+    }
+
+    public Piece findPiece(String name, Player player) throws InterruptedException {
+        ArrayList<Piece> myLIst = new ArrayList<>();
+        myLIst = this.getPieces();
+        for (Piece piece : myLIst) {
+            //validate that the piece name exists, and that the color is the same as the players
+            if (Objects.isNull(piece.getFullName())) {
+                System.out.println(piece.getName());
+            }
+            if (piece.getFullName().equals(name) && player.getColor().equals(piece.getColor())) {
+                return piece;
+            }
+        }
+        System.out.println("The piece doesn't exist, or the players color doesn't match the piece selected. Try again");
+        TimeUnit.SECONDS.sleep(1);
+        return null;
     }
 
     public ArrayList<Piece> showBoard() {

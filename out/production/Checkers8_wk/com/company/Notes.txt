@@ -298,3 +298,20 @@ Basic error handling:
 
 Game Over:
     A game is over when all the pieces of 1 color are gone; or when a player surrenders.
+
+ ======================================================================================================================
+ 2021 rebuild
+
+ Summary: overall the build isn't bad, but some improvements and cleaning up will make it easier to understand and teach.
+ Step 1 Better Abstraciton:
+    1a. Do less work inside the Main class. Do more work inside of Game.
+    1b. Review Regular Piece, King Piece and Moves.
+
+ Step 2 Data Hiding:
+    2a. Make more data private.
+    2b. Make more methods private.
+
+
+ Game class:
+    What is a game? It's a collection of players, a board, and pieces. Each of these needs to be setup to some degree
+    and created. When we create a game what do we want to create?
