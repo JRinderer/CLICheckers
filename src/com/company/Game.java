@@ -28,6 +28,7 @@ public class Game {
     }
 
     private void createPlayers(){
+        //setup players red goes first
         this.redPlayer = new Player(true, "R");
         this.whitePlayer = new Player(false, "W");
     }
@@ -40,6 +41,12 @@ public class Game {
         this.board = new Board();
     }
     //end od setup procedures
+
+
+    //methods to play the game
+
+
+    //
 
     //this is our main function for playing the game
     private void playGame() throws InterruptedException {
@@ -55,12 +62,10 @@ public class Game {
         this.setUpGame();
 
         this.setOver(true);
-
+        //this is local to the Play game
         boolean canMove;
 
-        currentPieces = this.board.showBoard();
-
-        //setup players red goes first
+        this.currentPieces = this.board.showBoard();
 
         //create an array list and store our players
         ArrayList<Player> players = new ArrayList<>();
@@ -125,7 +130,7 @@ public class Game {
 
             }
             //after the move is made show the board
-            currentPieces = this.board.showBoard();
+            this.currentPieces = this.board.showBoard();
             //
             System.out.println("Would you like to surrender?");
             //myScanner.nextLine();
