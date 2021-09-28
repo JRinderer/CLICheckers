@@ -15,7 +15,7 @@ public class Board {
     }
 
 
-    public void setBoard() {
+    private void setBoard() {
 
         //we need to create squares in an 8x8 grade
         for (int x = 0; x < 8; x++) {
