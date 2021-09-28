@@ -59,7 +59,7 @@ public class Board {
         }
     }
 
-    public void setOddCols(int row, ArrayList<RegularPiece> pieces, String color, int move, int jump) {
+    private void setOddCols(int row, ArrayList<RegularPiece> pieces, String color, int move, int jump) {
         int pieceCounter = 0;
         for(int y = 0;y<8;y++){
             if(y%2==0){
@@ -91,7 +91,7 @@ public class Board {
     }
 
 
-    public void setEvenCols(int row,ArrayList<RegularPiece> pieces, String color, int move, int jump) {
+    private void setEvenCols(int row,ArrayList<RegularPiece> pieces, String color, int move, int jump) {
         int pieceCounter = 0;
         for(int y = 0;y<8;y++){
             if(y%2!=0){
